@@ -14,7 +14,7 @@ class Apkg(Anki20):
     folder: Path
     media_path: Path
 
-    def __init__(self, filename_or_dir: Union[str, Path], **kwargs):
+    def __init__(self, filename_or_dir: Union[str, Path], db_ext='anki2', **kwargs):
         """
         ```python
         from ankisync2.apkg import Apkg, db
@@ -38,13 +38,13 @@ class Apkg(Anki20):
         self.media_path = self.folder.joinpath("media")
         if not self.media_path.exists():
             self.media_path.write_text("{}")
-
-        anki21 = self.folder.joinpath("collection.anki21")
+        db_file = f"collection.{db_ext}"
+        anki21 = self.folder.joinpath(db_file)
         self.has_anki21 = anki21.exists()
         self.orignal_anki2 = anki21
 
         if not anki21:
-            self.orignal_anki2 = self.folder.joinpath("collection.anki21")
+            self.orignal_anki2 = self.folder.joinpath(db_file)
 
         shutil.copy(
             self.orignal_anki2,
