@@ -45,13 +45,13 @@ class Apkg(Anki20):
 
         if not anki21:
             self.orignal_anki2 = self.folder.joinpath(db_file)
+        if self.has_anki21:
+            shutil.copy(
+                self.orignal_anki2,
+                self.folder.joinpath("collection.anki_tmp"),
+            )
 
-        shutil.copy(
-            self.orignal_anki2,
-            self.folder.joinpath("collection.anki_tmp"),
-        )
-
-        super().__init__(self.folder.joinpath("collection.anki_tmp"), **kwargs)
+        super().__init__(self.folder.joinpath("collection.anki_tmp"), is_new_db=not self.has_anki21, **kwargs)
 
     def __enter__(self):
         return self
